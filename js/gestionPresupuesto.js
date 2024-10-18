@@ -5,11 +5,9 @@ let presupuesto = 0;
 let gastos = [];
 let idGasto = 0;
 
-
 function actualizarPresupuesto(nuevoPresupuesto) {
     return (nuevoPresupuesto >= 0)?(presupuesto = nuevoPresupuesto, nuevoPresupuesto):(console.log("Error, numero negativo"), -1);
 }
-
 
 function mostrarPresupuesto() {
     return `Tu presupuesto actual es de ${presupuesto} €`;
@@ -35,7 +33,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
 
     this.mostrarGastoCompleto = function(){
-        const date = new Date(this.fecha).toLocaleString("es");
+        const date = new Date(this.fecha).toLocaleString();
         let gastoCompleto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${date}\n`
 
         if(etiquetas){
@@ -58,7 +56,6 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     }
     this.borrarEtiquetas=function(...etiquetasBorrar){
         for (let etiqueta of etiquetasBorrar){
-            
             let indice = this.etiquetas.indexOf(etiqueta);
             (indice >-1)?(this.etiquetas.splice(this.etiquetas.indexOf(etiqueta), 1)):(null);
         }
