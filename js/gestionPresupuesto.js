@@ -19,6 +19,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     (valor>0 && !valor.isNaN)?(this.valor = valor):(this.valor = 0);
     (!isNaN(Date.parse(fecha)))?(this.fecha = Date.parse(fecha)):(this.fecha = Date.now());
     (etiquetas)?(this.etiquetas = etiquetas):(this.etiquetas = []);
+    
 
     this.mostrarGasto = function(){
         return `Gasto correspondiente a ${descripcion} con valor ${valor} €`;
@@ -60,6 +61,8 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
             (indice >-1)?(this.etiquetas.splice(this.etiquetas.indexOf(etiqueta), 1)):(null);
         }
     }
+
+    
 }
 
 function listarGastos(){
@@ -91,6 +94,9 @@ function calcularBalance(){
     return presupuesto - calcularTotalGastos();
 }
 
+function filtrarGastos(){}
+
+function agruparGastos(){}
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
@@ -103,5 +109,7 @@ export   {
     anyadirGasto,
     borrarGasto,
     calcularTotalGastos,
-    calcularBalance
+    calcularBalance,
+    filtrarGastos,
+    agruparGastos
 }
