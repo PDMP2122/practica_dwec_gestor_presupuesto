@@ -55,6 +55,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
             (!this.etiquetas.includes(etiqueta))?(this.etiquetas.push(etiqueta)):(null);
         }
     }
+
     this.borrarEtiquetas=function(...etiquetasBorrar){
         for (let etiqueta of etiquetasBorrar){
             let indice = this.etiquetas.indexOf(etiqueta);
@@ -62,6 +63,21 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         }
     }
 
+    this.obtenerPeriodoAgrupacion = function(periodo){
+        
+        let dia =  new Date(this.fecha).getDate().toString().padStart(2, '0');
+        let mes = (new Date(this.fecha).getMonth()+1).toString().padStart(2, '0');
+        let anyo = new Date(this.fecha).getFullYear();
+        
+        switch(periodo){
+            case "dia":
+                return `${anyo}-${mes}-${dia}`;
+            case "mes":
+                return `${anyo}-${mes}`;
+            default:    
+                return `${anyo}`;
+        }
+    }
     
 }
 
