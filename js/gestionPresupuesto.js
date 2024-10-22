@@ -38,7 +38,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         let gastoCompleto = `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €.\nFecha: ${date}\n`
 
         if(etiquetas){
-            gastoCompleto+="Etiquetas:\n"
+            gastoCompleto += "Etiquetas:\n"
             for(let etiqueta of etiquetas){
                  gastoCompleto+=`- ${etiqueta}\n`;
             }
@@ -56,7 +56,7 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
         }
     }
 
-    this.borrarEtiquetas=function(...etiquetasBorrar){
+    this.borrarEtiquetas = function(...etiquetasBorrar){
         for (let etiqueta of etiquetasBorrar){
             let indice = this.etiquetas.indexOf(etiqueta);
             (indice >-1)?(this.etiquetas.splice(this.etiquetas.indexOf(etiqueta), 1)):(null);
@@ -110,7 +110,74 @@ function calcularBalance(){
     return presupuesto - calcularTotalGastos();
 }
 
-function filtrarGastos(){}
+function filtrarGastos(obj){ 
+    return gastos.filter(function(gasto){
+
+        if(Object.keys(obj).length === 0)
+            return gastos
+
+        let cumple = true;
+
+        if (obj.fechaDesde && cumple){
+            if(Date.parse (obj.fechaDesde) <= gasto.fecha ){
+
+            }else {
+                cumple = false;
+            }
+        }
+        
+        if(obj.fechaHasta && cumple){
+            if(Date.parse(obj.fechaHasta) >= gasto.fecha ){
+       
+            }else{
+                cumple = false;
+            }
+        }
+        
+
+        if(obj.valorMinimo && cumple){
+            if(obj.valorMinimo<=gasto.valor ){
+ 
+            }else{
+                cumple = false;
+            }
+        }
+
+        if(obj.valorMaximo && cumple ){
+            if(obj.valorMaximo>=gasto.valor ){
+
+            }else{
+                cumple = false;
+            }
+        }
+
+        if(obj.descripcionContiene && cumple){
+            if(gasto.descripcion.includes(obj.descripcionContiene)){
+
+            }else{
+                cumple = false;
+            }
+        }
+
+        if (obj.etiquetasTiene && cumple){
+
+            cumple = false;
+
+            for (let etiqueta of obj.etiquetasTiene){
+                for (let etiquetaGasto of gasto.etiquetas){
+                    if (etiqueta == etiquetaGasto)
+                        cumple=true;
+                }
+            }
+        }
+
+        return cumple;
+ 
+    }
+)
+
+
+}
 
 function agruparGastos(){}
 
