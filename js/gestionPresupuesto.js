@@ -97,7 +97,6 @@ function borrarGasto(id){
     (index>=0)?(gastos.splice(index, 1)):(null);
  }
 
-
 function calcularTotalGastos(){
     let suma = 0;
     for (let gasto of gastos){
@@ -118,46 +117,20 @@ function filtrarGastos(obj){
 
         let cumple = true;
 
-        if (obj.fechaDesde && cumple){
-            if(Date.parse (obj.fechaDesde) <= gasto.fecha ){
-
-            }else {
-                cumple = false;
-            }
-        }
+        if (obj.fechaDesde && cumple)
+            (Date.parse (obj.fechaDesde) <= gasto.fecha )?(null):(cumple = false);
         
-        if(obj.fechaHasta && cumple){
-            if(Date.parse(obj.fechaHasta) >= gasto.fecha ){
-       
-            }else{
-                cumple = false;
-            }
-        }
-        
+        if(obj.fechaHasta && cumple)
+            (Date.parse(obj.fechaHasta) >= gasto.fecha )?(null):(cumple = false);
 
-        if(obj.valorMinimo && cumple){
-            if(obj.valorMinimo<=gasto.valor ){
- 
-            }else{
-                cumple = false;
-            }
-        }
+        if(obj.valorMinimo && cumple)
+            (obj.valorMinimo<=gasto.valor )?(null):(cumple = false);
 
-        if(obj.valorMaximo && cumple ){
-            if(obj.valorMaximo>=gasto.valor ){
+        if(obj.valorMaximo && cumple )
+            (obj.valorMaximo>=gasto.valor )?(null):(cumple = false);
 
-            }else{
-                cumple = false;
-            }
-        }
-
-        if(obj.descripcionContiene && cumple){
-            if(gasto.descripcion.includes(obj.descripcionContiene)){
-
-            }else{
-                cumple = false;
-            }
-        }
+        if(obj.descripcionContiene && cumple)
+            (gasto.descripcion.includes(obj.descripcionContiene))?(null):(cumple = false);
 
         if (obj.etiquetasTiene && cumple){
 
@@ -165,8 +138,7 @@ function filtrarGastos(obj){
 
             for (let etiqueta of obj.etiquetasTiene){
                 for (let etiquetaGasto of gasto.etiquetas){
-                    if (etiqueta == etiquetaGasto)
-                        cumple=true;
+                    (etiqueta == etiquetaGasto)?(cumple=true):(null)
                 }
             }
         }
