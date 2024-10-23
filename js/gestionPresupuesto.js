@@ -155,13 +155,13 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
 
     return datosFiltrados.reduce(function(acc, gasto){
         
-    let periodoGasto = gasto.obtenerPeriodoAgrupacion(periodo);
+        let periodoGasto = gasto.obtenerPeriodoAgrupacion(periodo);
 
-    acc[periodoGasto] = acc[periodoGasto] || 0;
+        acc[periodoGasto] = acc[periodoGasto] || 0;
 
-    acc[periodoGasto] += gasto.valor;
+        acc[periodoGasto] += gasto.valor;
 
-    return acc;
+        return acc;
 
     }, {});
 
