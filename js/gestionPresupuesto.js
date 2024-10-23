@@ -15,11 +15,20 @@ function mostrarPresupuesto() {
 
 function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     
-    this.descripcion=descripcion;
+    this.descripcion = descripcion;
     (valor>0 && !valor.isNaN)?(this.valor = valor):(this.valor = 0);
     (!isNaN(Date.parse(fecha)))?(this.fecha = Date.parse(fecha)):(this.fecha = Date.now());
-    (etiquetas)?(this.etiquetas = etiquetas):(this.etiquetas = []);
+    //(etiquetas)?(this.etiquetas = etiquetas):(this.etiquetas = []); --> Añadida veridifacion de etiquetas mediante anyadirEtiquetas
     
+    this.etiquetas=[];
+
+    this.anyadirEtiquetas = function(...nuevasEtiquetas){
+        for (let etiqueta of nuevasEtiquetas){
+            (!this.etiquetas.includes(etiqueta))?(this.etiquetas.push(etiqueta)):(null);
+        }
+    }
+
+    this.anyadirEtiquetas(...etiquetas);
 
     this.mostrarGasto = function(){
         return `Gasto correspondiente a ${descripcion} con valor ${valor} €`;
@@ -48,12 +57,6 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
 
     this.actualizarFecha = function(nuevaFecha){
       return (!isNaN(Date.parse(nuevaFecha)))?(this.fecha = Date.parse(nuevaFecha)):(null);
-    }
-
-    this.anyadirEtiquetas = function(...nuevasEtiquetas){
-        for (let etiqueta of nuevasEtiquetas){
-            (!this.etiquetas.includes(etiqueta))?(this.etiquetas.push(etiqueta)):(null);
-        }
     }
 
     this.borrarEtiquetas = function(...etiquetasBorrar){
