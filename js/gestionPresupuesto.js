@@ -78,7 +78,6 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
                 return `${anyo}`;
         }
     }
-    
 }
 
 function listarGastos(){
@@ -118,16 +117,16 @@ function filtrarGastos(obj){
         let cumple = true;
 
         if (obj.fechaDesde && cumple)
-            (Date.parse (obj.fechaDesde) <= gasto.fecha )?(null):(cumple = false);
+            (Date.parse (obj.fechaDesde) <= gasto.fecha)?(null):(cumple = false);
         
         if(obj.fechaHasta && cumple)
-            (Date.parse(obj.fechaHasta) >= gasto.fecha )?(null):(cumple = false);
+            (Date.parse(obj.fechaHasta) >= gasto.fecha)?(null):(cumple = false);
 
         if(obj.valorMinimo && cumple)
-            (obj.valorMinimo<=gasto.valor )?(null):(cumple = false);
+            (obj.valorMinimo <= gasto.valor)?(null):(cumple = false);
 
         if(obj.valorMaximo && cumple )
-            (obj.valorMaximo>=gasto.valor )?(null):(cumple = false);
+            (obj.valorMaximo >= gasto.valor)?(null):(cumple = false);
 
         if(obj.descripcionContiene && cumple)
             (gasto.descripcion.includes(obj.descripcionContiene))?(null):(cumple = false);
@@ -144,14 +143,31 @@ function filtrarGastos(obj){
         }
 
         return cumple;
- 
-    }
-)
 
+    })   
+}
+
+function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
+
+    let obj = {fechaDesde: fechaDesde, fechaHasta: fechaHasta, etiquetasTiene: etiquetas }
+
+    let datosFiltrados = filtrarGastos(obj);
+
+    return datosFiltrados.reduce(function(acc, gasto){
+        
+    let periodoGasto = gasto.obtenerPeriodoAgrupacion(periodo);
+
+    acc[periodoGasto] = acc[periodoGasto] || 0;
+
+    acc[periodoGasto] += gasto.valor;
+
+    return acc;
+
+    }, {});
 
 }
 
-function agruparGastos(){}
+
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
 // Las funciones y objetos deben tener los nombres que se indican en el enunciado
