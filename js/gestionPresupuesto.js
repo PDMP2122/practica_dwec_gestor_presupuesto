@@ -104,11 +104,11 @@ function calcularTotalGastos(){
     for (let gasto of gastos){
         suma+=gasto.valor;
     }
-    return suma;
+    return suma.toFixed(2);
 }
 
 function calcularBalance(){
-    return presupuesto - calcularTotalGastos();
+    return (presupuesto - calcularTotalGastos()).toFixed(2);
 }
 
 function filtrarGastos(obj){ 

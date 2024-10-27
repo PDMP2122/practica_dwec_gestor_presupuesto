@@ -35,7 +35,6 @@ function mostrarGastoWeb(idElemento, gasto){
     let divGasto = document.createElement("div");
    
     divGasto.classList.add("gasto");
- 
     
     let gastoDescripcion = document.createElement("div");
     gastoDescripcion.classList.add("gasto-descripcion");
@@ -43,7 +42,7 @@ function mostrarGastoWeb(idElemento, gasto){
  
     let gastoFecha = document.createElement("div");
     gastoFecha.classList.add("gasto-fecha");
-    gastoFecha.innerText = gasto.fecha;
+    gastoFecha.innerText = new Date(gasto.fecha).toLocaleDateString();
 
     let gastoValor = document.createElement("div");
     gastoValor.classList.add("gasto-valor");
@@ -59,7 +58,6 @@ function mostrarGastoWeb(idElemento, gasto){
         span.innerText = etiqueta;
         gastoEtiquetas.append(span);
     }
-   
    
     divGasto.append(gastoDescripcion);
     divGasto.append(gastoFecha);
