@@ -46,3 +46,9 @@ let gastosFiltrados2 = gestionPresupuesto.filtrarGastos({valorMinimo: 50})
 for (let gasto of gastosFiltrados2){
 gestionPresupuestoWeb.mostrarGastoWeb("div#listado-gastos-filtrado-2", gasto);
 }
+
+let gastosFiltrados3 = gestionPresupuesto.filtrarGastos({valorMinimo: 200, etiquetasTiene:["seguros"]})
+
+for (let gasto of gastosFiltrados3){
+gestionPresupuestoWeb.mostrarGastoWeb("div#listado-gastos-filtrado-3", gasto);
+}
