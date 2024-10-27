@@ -32,31 +32,40 @@ que se pase como parámetro:
 
 function mostrarGastoWeb(idElemento, gasto){
     let elemento = document.querySelector(idElemento);
-    let divGasto = document.createElement(div);
-    divGasto.classList.append("gasto");
-    elemento.append(divGasto);
-    let gastoDescripcion = document.createElement(div);
-    gastoDescripcion.classList.append("gasto-descripcion");
-    elemento.append(gastoDescripcion);
-    let gastoFecha = document.createElement(div);
-    gastoFecha.classList.append("gasto-fecha");
-    elemento.append(gastoFecha);
-    let gastoValor = document.createElement(div);
-    gastoValor.classList.append("gasto-valor");
-    elemento.append(gastoValor);
-    let gastoEtiquetas = document.createElement(div);
+    let divGasto = document.createElement("div");
+   
+    divGasto.classList.add("gasto");
+ 
     
-    gastoEtiquetas.classList.append("gasto-etiquetas");
+    let gastoDescripcion = document.createElement("div");
+    gastoDescripcion.classList.add("gasto-descripcion");
+    gastoDescripcion.innerText = gasto.descripcion;
+ 
+    let gastoFecha = document.createElement("div");
+    gastoFecha.classList.add("gasto-fecha");
+    gastoFecha.innerText = gasto.fecha;
+
+    let gastoValor = document.createElement("div");
+    gastoValor.classList.add("gasto-valor");
+    gastoValor.innerText = gasto.valor;
+
+    let gastoEtiquetas = document.createElement("div");
+    
+    gastoEtiquetas.classList.add("gasto-etiquetas");
    
     for (let etiqueta of gasto.etiquetas){
-        let span = document.createElement(span);
-        span.classList.append("gasto-etiquetas-etiqueta");
+        let span = document.createElement("span");
+        span.classList.add("gasto-etiquetas-etiqueta");
         span.innerText = etiqueta;
-        elemento.append(gastoEtiquetas);
+        gastoEtiquetas.append(span);
     }
-
-    elemento.append(gastoEtiquetas)
-
+   
+   
+    divGasto.append(gastoDescripcion);
+    divGasto.append(gastoFecha);
+    divGasto.append(gastoValor); 
+    divGasto.append(gastoEtiquetas);
+    elemento.append(divGasto);
 }
 
 

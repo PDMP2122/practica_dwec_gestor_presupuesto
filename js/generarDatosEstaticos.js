@@ -21,3 +21,9 @@ gestionPresupuesto.anyadirGasto(gasto6);
 
 gestionPresupuestoWeb.mostrarDatoEnId("div#gastos-totales", gestionPresupuesto.calcularTotalGastos());
 gestionPresupuestoWeb.mostrarDatoEnId("div#balance-total", gestionPresupuesto.calcularBalance());
+
+let gastos = gestionPresupuesto.listarGastos();
+
+for (let gasto of gastos){
+    gestionPresupuestoWeb.mostrarGastoWeb("div#listado-gastos-completo", gasto);
+}
