@@ -59,8 +59,8 @@ gestionPresupuestoWeb.mostrarGastoWeb("div#listado-gastos-filtrado-4", gasto);
 - Mostrar el total de gastos *agrupados por año* en ~div#agrupacion-anyo~ (funciones ~agruparGastos~ y ~mostrarGastosAgrupadosWeb~)
 */
 
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("div#agrupacion-dia", gestionPresupuesto.agruparGastos("dia"),"dia")
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("div#agrupacion-dia", gestionPresupuesto.agruparGastos("dia"),"día")
 
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("div#agrupacion-mes", gestionPresupuesto.agruparGastos("mes"),"mes")
 
-gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("div#agrupacion-anyo", gestionPresupuesto.agruparGastos("anyo"),"anyo")
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("div#agrupacion-anyo", gestionPresupuesto.agruparGastos("año"),"año")
