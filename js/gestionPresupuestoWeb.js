@@ -52,13 +52,13 @@ function mostrarGastosAgrupadosWeb(idElemento, agroup, periodo){
   divAgrupacion.append(h1);
 
 
-Object.entries(agroup).forEach(([key, value]) => {
-  let divAgrupacionDato = document.createElement("div");
-    divAgrupacionDato.classList.add("agrupacion-dato");
-    divAgrupacionDato.innerHTML=`<span class="agrupacion-dato-clave">${key}</span>
-           <span class="agrupacion-dato-valor">${Number(value).toFixed(2)}</span>`;
-    divAgrupacion.append(divAgrupacionDato);
-});
+  Object.entries(agroup).forEach(([key, value]) => {
+    let divAgrupacionDato = document.createElement("div");
+      divAgrupacionDato.classList.add("agrupacion-dato");
+      divAgrupacionDato.innerHTML=`<span class="agrupacion-dato-clave">${key}</span>
+            <span class="agrupacion-dato-valor">${Number(value).toFixed(2)}</span>`;
+      divAgrupacion.append(divAgrupacionDato);
+  });
 
   elemento.append(divAgrupacion);
 

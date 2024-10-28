@@ -1,6 +1,5 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
-// TODO: Variable global
 let presupuesto = 0;
 let gastos = [];
 let idGasto = 0;
@@ -18,7 +17,6 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) {
     this.descripcion = descripcion;
     (valor>0 && !valor.isNaN)?(this.valor = valor):(this.valor = 0);
     (!isNaN(Date.parse(fecha)))?(this.fecha = Date.parse(fecha)):(this.fecha = Date.now());
-    //(etiquetas)?(this.etiquetas = etiquetas):(this.etiquetas = []); --> Añadida veridifacion de etiquetas mediante anyadirEtiquetas
     
     this.etiquetas=[];
 
@@ -146,26 +144,21 @@ function filtrarGastos(obj){
         }
 
         return cumple;
-
     })   
 }
 
 function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
 
     let obj = {fechaDesde: fechaDesde, fechaHasta: fechaHasta, etiquetasTiene: etiquetas }
-
     let datosFiltrados = filtrarGastos(obj);
 
     return datosFiltrados.reduce(function(acc, gasto){
-        
+
         let periodoGasto = gasto.obtenerPeriodoAgrupacion(periodo);
-
         acc[periodoGasto] = acc[periodoGasto] || 0;
-
         acc[periodoGasto] += gasto.valor;
-
+        
         return acc;
-
     }, {});
 
 }
