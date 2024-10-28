@@ -60,3 +60,7 @@ gestionPresupuestoWeb.mostrarGastoWeb("div#listado-gastos-filtrado-4", gasto);
 */
 
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("div#agrupacion-dia", gestionPresupuesto.agruparGastos("dia"),"dia")
+
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("div#agrupacion-mes", gestionPresupuesto.agruparGastos("mes"),"mes")
+
+gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("div#agrupacion-anyo", gestionPresupuesto.agruparGastos("anyo"),"anyo")
