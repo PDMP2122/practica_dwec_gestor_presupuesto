@@ -53,11 +53,6 @@ for (let gasto of gastosFiltrados4){
 gestionPresupuestoWeb.mostrarGastoWeb("div#listado-gastos-filtrado-4", gasto);
 }
 
-/*
-- Mostrar el total de gastos *agrupados por día* en ~div#agrupacion-dia~ (funciones ~agruparGastos~ y ~mostrarGastosAgrupadosWeb~)
-- Mostrar el total de gastos *agrupados por mes* en ~div#agrupacion-mes~ (funciones ~agruparGastos~ y ~mostrarGastosAgrupadosWeb~)
-- Mostrar el total de gastos *agrupados por año* en ~div#agrupacion-anyo~ (funciones ~agruparGastos~ y ~mostrarGastosAgrupadosWeb~)
-*/
 
 gestionPresupuestoWeb.mostrarGastosAgrupadosWeb("div#agrupacion-dia", gestionPresupuesto.agruparGastos("dia"),"día")
 
