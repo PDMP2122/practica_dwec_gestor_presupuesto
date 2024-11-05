@@ -65,30 +65,21 @@ function mostrarGastosAgrupadosWeb(idElemento, agroup, periodo){
 }
 
 
-/*
-Por tanto, es necesario disponer de una función que *vuelva a crear toda la estructura HTML* que refleje los cambios realizados en el modelo de datos. Esta función se denominará ~repintar~, y realizará las siguientes tareas:
-     - Mostrar el presupuesto en ~div#presupuesto~ (funciones ~mostrarPresupuesto~ y ~mostrarDatoEnId~)
-     - Mostrar los gastos totales en ~div#gastos-totales~ (funciones ~calcularTotalGastos~ y ~mostrarDatoEnId~)
-     - Mostrar el balance total en ~div#balance-total~ (funciones ~calcularBalance~ y ~mostrarDatoEnId~)
-     - *Borrar el contenido* de ~div#listado-gastos-completo~, para que el paso siguiente no duplique la información. Puedes utilizar ~innerHTML~ para borrar el contenido de dicha capa.
-     - Mostrar el listado completo de gastos en ~div#listado-gastos-completo~ (funciones ~listarGastos~ y ~mostrarGastoWeb~)
-     
-     La función ~repintar~ *no actualizará el resto de capas* (filtrados y agrupaciones) de la práctica anterior (lo haremos así por simplicidad).
-*/
-
 function repintar(){
 
   mostrarDatoEnId("div#presupuesto", gestionPresupuesto.mostrarPresupuesto());
   mostrarDatoEnId("div#gastos-totales", gestionPresupuesto.calcularTotalGastos());
   mostrarDatoEnId("div#balance-total", gestionPresupuesto.calcularBalance());
   document.querySelector("div#listado-gastos-completo").innerHTML="";
-  mostrarGastoWeb("div#listado-gastos-completo", gestionPresupuesto.listarGastos());
-
+  for (let gasto of gestionPresupuesto.listarGastos()){
+    mostrarGastoWeb("div#listado-gastos-completo", gasto)
+  }
+ 
 }
 
 
 function actualizarPresupuestoWeb (){
-  let presupuestoNuevo = Number(prompt("Introduce nuevo presupuesto"));
+  let presupuestoNuevo = Number(prompt("Introduce nuevo presupuesto", "0"));
   gestionPresupuesto.actualizarPresupuesto(presupuestoNuevo);
   repintar();
 }
@@ -96,6 +87,35 @@ function actualizarPresupuestoWeb (){
 let botonActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
 botonActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
 
+
+/*
+**** Función ~nuevoGastoWeb~ y botón ~anyadirgasto~
+     Esta función se utilizará como [[https://es.javascript.info/introduction-browser-events#addeventlistener][manejadora de eventos]] del botón ~anyadirgasto~ del
+      código HTML. Realizará las siguientes tareas:
+     - Pedir al usuario *la información necesaria para crear un nuevo gasto* mediante sucesivas preguntas con [[https://es.javascript.info/alert-prompt-confirm][prompt]] 
+     (por orden: descripción, valor, fecha y etiquetas). Por simplicidad, de momento *no se comprobará la validez de dichos datos*. La fecha vendrá dada en
+      formato internacional (~yyyy-mm-dd~) y las *etiquetas* se introducirán en un único cuadro de texto como una *lista separada por comas* (
+        por ejemplo, ~etiqueta1,etiqueta2,etiqueta3~).
+     - Convertir el valor a número (recuerda que ~prompt~ siempre devuelve un ~string~).
+     - Convertir la cadena de texto de etiquetas devuelta por ~prompt~ [[https://es.javascript.info/array-methods#split-y-join][a un array]].
+     - Crear un nuevo gasto (función ~crearGasto~). *¡Ojo con la manera de pasar el parámetro ~etiquetas~!*
+     - Añadir el gasto a la lista (función ~anyadirGasto~).
+     - Llamar a la función ~repintar~ para que se muestre la lista con el nuevo gasto.
+*/
+
+
+function nuevoGastoWeb(){
+  let descripcion = prompt("Introduce descripción", "DESCRIPCION");
+  let valor = Number(prompt("Introduce valor"));
+  let fecha = prompt("Introduce fecha");
+  let etiquetas = prompt("Introduce etiquetas").split(",");
+  let nuevoGasto = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, etiquetas);
+  gestionPresupuesto.anyadirGasto(nuevoGasto);
+  repintar();
+}
+
+let botonNuevoGasto = document.getElementById("anyadirgasto");
+botonNuevoGasto.addEventListener("click", nuevoGastoWeb);
 
 export{
     mostrarDatoEnId,
