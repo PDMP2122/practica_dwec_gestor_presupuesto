@@ -31,6 +31,17 @@ function mostrarGastoWeb(idElemento, gasto){
         let span = document.createElement("span");
         span.classList.add("gasto-etiquetas-etiqueta");
         span.innerText = etiqueta;
+        
+        /*Añado evento a la etiqueta span */
+
+        //creo el manejador
+        let manejadorBorradoEtiqueta = Object.create(BorrarEtiquetasHandle);
+        //Asocio gasto y etiqueta al manejador
+        manejadorBorradoEtiqueta.gasto = gasto;
+        manejadorBorradoEtiqueta.etiqueta = etiqueta;
+        //Añado evento al span con el manejador
+        span.addEventListener("click", manejadorBorradoEtiqueta);
+
         gastoEtiquetas.append(span);
     }
    
@@ -49,7 +60,7 @@ function mostrarGastoWeb(idElemento, gasto){
     botonEditar.classList.add("gasto-editar");
     botonEditar.textContent="Editar";
    
-    //Manejador de enventos boton editar
+    //Manejador de eventos boton editar
     let editarManejador = Object.create(EditarHandle);
     //Asocio editarManejador a gasto
     editarManejador.gasto = gasto;
@@ -65,7 +76,7 @@ function mostrarGastoWeb(idElemento, gasto){
     botonBorrar.classList.add("gasto-borrar");
     botonBorrar.textContent="Borrar";
    
-    //Manejador de enventos boton borrar
+    //Manejador de eventos boton borrar
     let borrarManejador = Object.create(BorrarHandle);
     //Asocio borrarManejador a gasto
     borrarManejador.gasto = gasto;
@@ -88,7 +99,6 @@ function mostrarGastosAgrupadosWeb(idElemento, agroup, periodo){
   h1.innerText = `Gastos agrupados por ${periodo}`;
   divAgrupacion.append(h1);
 
-
   Object.entries(agroup).forEach(([key, value]) => {
     let divAgrupacionDato = document.createElement("div");
       divAgrupacionDato.classList.add("agrupacion-dato");
@@ -100,7 +110,6 @@ function mostrarGastosAgrupadosWeb(idElemento, agroup, periodo){
   elemento.append(divAgrupacion);
 
 }
-
 
 function repintar(){
 
@@ -114,7 +123,6 @@ function repintar(){
  
 }
 
-
 function actualizarPresupuestoWeb (){
   let presupuestoNuevo = Number(prompt("Introduce nuevo presupuesto", "0"));
   gestionPresupuesto.actualizarPresupuesto(presupuestoNuevo);
@@ -123,7 +131,6 @@ function actualizarPresupuestoWeb (){
 
 let botonActualizarPresupuesto = document.getElementById("actualizarpresupuesto");
 botonActualizarPresupuesto.addEventListener("click", actualizarPresupuestoWeb);
-
 
 function nuevoGastoWeb(){
   let descripcion = prompt("Introduce descripción", "DESCRIPCION");
@@ -139,8 +146,7 @@ let botonNuevoGasto = document.getElementById("anyadirgasto");
 botonNuevoGasto.addEventListener("click", nuevoGastoWeb);
 
 
-
-/*Funciones manejadoras eventos botones */
+/*Funciones manejadoras eventos botones y etiquetas*/
 
 let EditarHandle = {
   handleEvent: function(evento){
@@ -166,6 +172,12 @@ let BorrarHandle = {
   }
 }
 
+let BorrarEtiquetasHandle = {
+  handleEvent: function(evento){
+    this.gasto.borrarEtiquetas(this.etiqueta)
+    repintar();
+  }
+}
 
 
 export{
