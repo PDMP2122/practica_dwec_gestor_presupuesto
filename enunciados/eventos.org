@@ -100,17 +100,24 @@ El repositorio se ha configurado para que se *ejecuten los tests automáticament
      La función ~repintar~ *no actualizará el resto de capas* (filtrados y agrupaciones) de la práctica anterior (lo haremos así por simplicidad).
      
 **** Función ~actualizarPresupuestoWeb~ y botón ~actualizarpresupuesto~
-     Esta función se utilizará como [[https://es.javascript.info/introduction-browser-events#addeventlistener][manejadora de eventos]] del botón ~actualizarpresupuesto~ del código HTML. Realizará las siguientes tareas:
+     Esta función se utilizará como [[https://es.javascript.info/introduction-browser-events#addeventlistener][manejadora de eventos]] del botón 
+     ~actualizarpresupuesto~ del código HTML. Realizará las siguientes tareas:
      - Pedir al usuario que introduzca un presupuesto mediante un [[https://es.javascript.info/alert-prompt-confirm][prompt]].
      - Convertir el valor a número (recuerda que ~prompt~ siempre devuelve un ~string~).
      - Actualicar el presupuesto (función ~actualizarPresupuesto~)
-     - Llamar a la función ~repintar~ para que se muestre la información actualizada en el archivo HTML. Recuerda que actualizar el presupuesto provoca cambios en el balance, por lo que al ejecutar ~repintar~ se actualizarán ambos campos.
+     - Llamar a la función ~repintar~ para que se muestre la información actualizada en el archivo HTML. Recuerda que actualizar el presupuesto provoca 
+     cambios en el balance, por lo que al ejecutar ~repintar~ se actualizarán ambos campos.
 
-     Una vez definida la función, se añadirá como *manejadora del evento* ~click~ del botón ~actualizarpresupuesto~ mediante ~addEventListener~. Para ello habrá que [[https://es.javascript.info/searching-elements-dom#document-getelementbyid-o-solo-id][obtener el elemento botón]] correspondiente previamente.
+     Una vez definida la función, se añadirá como *manejadora del evento* ~click~ del botón ~actualizarpresupuesto~ mediante ~addEventListener~. 
+     Para ello habrá que [[https://es.javascript.info/searching-elements-dom#document-getelementbyid-o-solo-id][obtener el elemento botón]] correspondiente previamente.
      
 **** Función ~nuevoGastoWeb~ y botón ~anyadirgasto~
-     Esta función se utilizará como [[https://es.javascript.info/introduction-browser-events#addeventlistener][manejadora de eventos]] del botón ~anyadirgasto~ del código HTML. Realizará las siguientes tareas:
-     - Pedir al usuario *la información necesaria para crear un nuevo gasto* mediante sucesivas preguntas con [[https://es.javascript.info/alert-prompt-confirm][prompt]] (por orden: descripción, valor, fecha y etiquetas). Por simplicidad, de momento *no se comprobará la validez de dichos datos*. La fecha vendrá dada en formato internacional (~yyyy-mm-dd~) y las *etiquetas* se introducirán en un único cuadro de texto como una *lista separada por comas* (por ejemplo, ~etiqueta1,etiqueta2,etiqueta3~).
+     Esta función se utilizará como [[https://es.javascript.info/introduction-browser-events#addeventlistener][manejadora de eventos]] del botón ~anyadirgasto~ del
+      código HTML. Realizará las siguientes tareas:
+     - Pedir al usuario *la información necesaria para crear un nuevo gasto* mediante sucesivas preguntas con [[https://es.javascript.info/alert-prompt-confirm][prompt]] 
+     (por orden: descripción, valor, fecha y etiquetas). Por simplicidad, de momento *no se comprobará la validez de dichos datos*. La fecha vendrá dada en
+      formato internacional (~yyyy-mm-dd~) y las *etiquetas* se introducirán en un único cuadro de texto como una *lista separada por comas* (
+        por ejemplo, ~etiqueta1,etiqueta2,etiqueta3~).
      - Convertir el valor a número (recuerda que ~prompt~ siempre devuelve un ~string~).
      - Convertir la cadena de texto de etiquetas devuelta por ~prompt~ [[https://es.javascript.info/array-methods#split-y-join][a un array]].
      - Crear un nuevo gasto (función ~crearGasto~). *¡Ojo con la manera de pasar el parámetro ~etiquetas~!*
