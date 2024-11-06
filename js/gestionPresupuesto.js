@@ -86,7 +86,7 @@ function listarGastos(){
 }
 
 function anyadirGasto(gasto){
-    gasto.id=idGasto;
+    gasto.id = idGasto;
     idGasto++;
     gastos.push(gasto);
 }
@@ -102,7 +102,7 @@ function calcularTotalGastos(){
     for (let gasto of gastos){
         suma+=gasto.valor;
     }
-    return suma.toFixed(2);
+    return suma;
 }
 
 function calcularBalance(){
