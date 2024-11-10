@@ -223,14 +223,19 @@ function nuevoGastoWebFormulario(evento){
   }
 
   let botonCancelar = document.querySelector(".cancelar");
-  botonCancelar.addEventListener("click", cancelarFormulario);
+  
+  let cancelarManejador = Object.create(cancelarBoton);
+  cancelarManejador.formulario = formulario;
+  botonCancelar.addEventListener("click", cancelarManejador);
+ }
 
-  function cancelarFormulario(evento){
-    formulario.remove()
+
+let cancelarBoton = {
+  handleEvent: function cancelarFormulario(evento){
+    this.formulario.remove()
     botonAnyadirGastoFormulario.disabled = false;
-  }
 }
-
+}
 
 
 
