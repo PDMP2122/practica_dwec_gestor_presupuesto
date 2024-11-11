@@ -245,7 +245,7 @@ let cancelarBoton = {
   handleEvent: function cancelarFormulario(evento){
     this.formulario.remove()
     botonAnyadirGastoFormulario.disabled = false;
-}
+  }
 }
 
 /*Editar formulario*/
@@ -268,6 +268,7 @@ let EditarHandleFormulario ={
     formularioEdit.addEventListener("submit", submitFormularioEdit);
     
     let gasto = this.gasto;
+    let botonEditarFormulario = this.botonEditarFormulario;
 
     function submitFormularioEdit(evento){
       
@@ -281,8 +282,9 @@ let EditarHandleFormulario ={
       gasto.actualizarFecha(fecha);
       gasto.anyadirEtiquetas(...etiquetas);
       formularioEdit.remove(); 
+      botonEditarFormulario.disabled = false;
       repintar();
- 
+  
     }
 
 
@@ -294,10 +296,6 @@ let EditarHandleFormulario ={
 
   }
 }
-
-
-
-
 
 export{
     mostrarDatoEnId,
