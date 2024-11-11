@@ -85,6 +85,24 @@ function mostrarGastoWeb(idElemento, gasto){
     //Se añade el boton
     divGasto.append(botonBorrar);
 
+   
+    //Boton Editar formulario
+
+    let botonEditarFormulario = document.createElement("button");
+    botonEditarFormulario.setAttribute("type", "button");
+    botonEditarFormulario.classList.add("gasto-editar-formulario");
+    botonEditarFormulario.textContent="Editar (formulario)";
+
+    //Manejador de eventos boton editar formulario
+    let manejadorEditarFormulario = Object.create(EditarHandleFormulario);
+    //Asocio manejadorEditarFormulario a gasto y a la etiqueta divGasto
+    manejadorEditarFormulario.gasto = gasto;
+    manejadorEditarFormulario.divGasto = divGasto;
+    manejadorEditarFormulario.botonEditarFormulario = botonEditarFormulario;
+    //Se añade manejador al botón
+    botonEditarFormulario.addEventListener("click", manejadorEditarFormulario)
+    //Se añade el boton
+    divGasto.append(botonEditarFormulario);
 
     elemento.append(divGasto);
 }
@@ -182,7 +200,6 @@ let BorrarEtiquetasHandle = {
 
 /*Creacion y edicion Gastos con Formulario */
 
-
   let botonAnyadirGastoFormulario = document.getElementById("anyadirgasto-formulario");
   botonAnyadirGastoFormulario.addEventListener("click", nuevoGastoWebFormulario);
 
@@ -208,13 +225,6 @@ function nuevoGastoWebFormulario(evento){
     let fecha = Date.parse(formulario.fecha.value);
     let etiquetas = (formulario.etiquetas.value).split(",");
     
-    console.log(descripcion);
-    console.log(valor);
-    console.log(formulario.fecha.value);
-    console.log(fecha);
-    console.log(formulario.etiquetas.value);
-    console.log(etiquetas);
-
     let nuevoGasto = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...etiquetas);
     gestionPresupuesto.anyadirGasto(nuevoGasto);
     repintar();
@@ -225,6 +235,7 @@ function nuevoGastoWebFormulario(evento){
   let botonCancelar = document.querySelector(".cancelar");
   
   let cancelarManejador = Object.create(cancelarBoton);
+  //Envio del elemento formulario para su destrucción
   cancelarManejador.formulario = formulario;
   botonCancelar.addEventListener("click", cancelarManejador);
  }
@@ -237,6 +248,52 @@ let cancelarBoton = {
 }
 }
 
+/*Editar formulario*/
+
+let EditarHandleFormulario ={
+  handleEvent: function editarFormulario(evento){
+
+    let plantillaFormulario = document.getElementById("formulario-template").content.cloneNode(true);
+    let formularioEdit = plantillaFormulario.querySelector("form");
+  
+    this.divGasto.append(formularioEdit);
+    
+    this.botonEditarFormulario.disabled = true;
+
+    formularioEdit.descripcion.value = this.gasto.descripcion;
+    formularioEdit.valor.value = this.gasto.valor;
+    formularioEdit.fecha.value = new Date (this.gasto.fecha).toISOString().split('T')[0];;
+    formularioEdit.etiquetas.value = this.gasto.etiquetas.join(',')
+   
+    formularioEdit.addEventListener("submit", submitFormularioEdit);
+    
+    let gasto = this.gasto;
+
+    function submitFormularioEdit(evento){
+      
+      evento.preventDefault();
+      let descripcion = formularioEdit.descripcion.value;
+      let valor = Number(formularioEdit.valor.value);
+      let fecha = Date.parse(formularioEdit.fecha.value);
+      let etiquetas = (formularioEdit.etiquetas.value).split(",");
+      gasto.actualizarDescripcion(descripcion);
+      gasto.actualizarValor(valor);
+      gasto.actualizarFecha(fecha);
+      gasto.anyadirEtiquetas(...etiquetas);
+      formularioEdit.remove(); 
+      repintar();
+ 
+    }
+
+
+    let botonCancelar = document.querySelector(".cancelar");
+    let cancelarManejador = Object.create(cancelarBoton);
+    //Envio del elemento formulario para su destrucción
+    cancelarManejador.formulario = formularioEdit;
+    botonCancelar.addEventListener("click", cancelarManejador);
+
+  }
+}
 
 
 
