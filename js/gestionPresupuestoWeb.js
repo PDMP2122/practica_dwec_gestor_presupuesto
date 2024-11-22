@@ -305,10 +305,55 @@ let EditarHandleFormulario ={
   }
 }
 
+/*Logica formulario filtrado de gastos*/
+
+let formularioFiltrado = document.getElementById("formulario-filtrado");
+formularioFiltrado.addEventListener("submit",filtrarGastosWeb)
+
+function filtrarGastosWeb(evento){
+  evento.preventDefault();
+  let descripcionFilt = formularioFiltrado["formulario-filtrado-descripcion"].value;
+  let valorMinimoFilt = formularioFiltrado["formulario-filtrado-valor-minimo"].value;
+  console.log(valorMinimoFilt);
+  let valorMaximoFilt = formularioFiltrado["formulario-filtrado-valor-maximo"].value;
+  let fechaInicialFilt = formularioFiltrado["formulario-filtrado-fecha-desde"].value;
+  console.log(fechaInicialFilt);
+  let fechaFinalFilt = formularioFiltrado["formulario-filtrado-fecha-hasta"].value;
+
+  let etiquetasFilt = formularioFiltrado["formulario-filtrado-etiquetas-tiene"].value;
+
+  (etiquetasFilt.length > 0)?(etiquetasFilt = gestionPresupuesto.transformarListadoEtiquetas(etiquetasFilt)):(null);
+
+  console.log(etiquetasFilt);
+  let obj = {}
+  
+  obj.descripcionContiene = descripcionFilt;
+  obj.valorMinimo = valorMinimoFilt;
+  obj.valorMaximo = valorMaximoFilt;
+  obj.fechaDesde = fechaInicialFilt;
+  obj.fechaHasta = fechaFinalFilt;
+  obj.etiquetasTiene = etiquetasFilt;
+
+  let gastosFiltrados = gestionPresupuesto.filtrarGastos(obj);
+
+  if (descripcionFilt === "" && valorMinimoFilt === "" && valorMaximoFilt === ""  && fechaInicialFilt === ""  && fechaFinalFilt === "" && etiquetasFilt === "" ){
+    gastosFiltrados = gestionPresupuesto.listarGastos();
+  }
+
+document.querySelector("div#listado-gastos-completo").innerHTML="";
+
+  for (let gasto of gastosFiltrados){
+    mostrarGastoWeb("div#listado-gastos-completo", gasto);
+  }
+
+}
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
     mostrarGastosAgrupadosWeb,
     repintar,
-    nuevoGastoWebFormulario
+    nuevoGastoWebFormulario,
+    filtrarGastosWeb
 }
