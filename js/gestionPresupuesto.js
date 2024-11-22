@@ -163,6 +163,13 @@ function agruparGastos(periodo, etiquetas, fechaDesde, fechaHasta){
 
 }
 
+function transformarListadoEtiquetas(stringEtiquetas){
+    
+    let regex = /[a-zA-Z0-9]+/g;
+
+    return stringEtiquetas.match(regex);
+}
+
 
 
 // NO MODIFICAR A PARTIR DE AQUÍ: exportación de funciones y objetos creados para poder ejecutar los tests.
@@ -178,5 +185,6 @@ export   {
     calcularTotalGastos,
     calcularBalance,
     filtrarGastos,
-    agruparGastos
+    agruparGastos,
+    transformarListadoEtiquetas
 }
