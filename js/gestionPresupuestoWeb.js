@@ -269,7 +269,7 @@ let EditarHandleFormulario ={
 
     formularioEdit.descripcion.value = this.gasto.descripcion;
     formularioEdit.valor.value = this.gasto.valor;
-    formularioEdit.fecha.value = new Date (this.gasto.fecha).toISOString().split('T')[0];;
+    formularioEdit.fecha.value = new Date (this.gasto.fecha).toISOString().split('T')[0];
     formularioEdit.etiquetas.value = this.gasto.etiquetas.join(',')
   
     
