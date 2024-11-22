@@ -340,7 +340,7 @@ function filtrarGastosWeb(evento){
     gastosFiltrados = gestionPresupuesto.listarGastos();
   }
 
-document.querySelector("div#listado-gastos-completo").innerHTML="";
+  document.querySelector("div#listado-gastos-completo").innerHTML="";
 
   for (let gasto of gastosFiltrados){
     mostrarGastoWeb("div#listado-gastos-completo", gasto);
