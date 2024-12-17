@@ -21,7 +21,7 @@ function mostrarGastoWeb(idElemento, gasto){
 
     let gastoValor = document.createElement("div");
     gastoValor.classList.add("gasto-valor");
-    gastoValor.innerText = gasto.valor.toFixed(2);
+    gastoValor.innerText = gasto.valor;
 
     let gastoEtiquetas = document.createElement("div");
     
@@ -348,6 +348,8 @@ function filtrarGastosWeb(evento){
 
 }
 
+/* Carga y guardado en Almacenamiento Local */
+
 let botonGuardar = document.getElementById("guardar-gastos");
 botonGuardar.addEventListener("click", guardarGastosWeb);
 
@@ -370,6 +372,27 @@ function cargarGastosWeb(){
 }
 
 
+/*Carga y guardado API */
+
+let botonCargarGastosAPI = document.getElementById("cargar-gastos-api");
+botonCargarGastosAPI.addEventListener("click", cargarGastosApi)
+
+async function cargarGastosApi(){
+  let nombreUsuario = document.getElementById("nombre_usuario").value;
+  console.log(nombreUsuario);
+  let url="https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario;
+  console.log(url);
+
+  let respuesta = await fetch(url);
+  let datos = await respuesta.json()
+  
+  console.log(datos);
+
+  (respuesta.ok)?(gestionPresupuesto.cargarGastos(datos), repintar()):(console.log("error de red"));
+}
+
+
+
 export{
     mostrarDatoEnId,
     mostrarGastoWeb,
@@ -378,5 +401,6 @@ export{
     nuevoGastoWebFormulario,
     filtrarGastosWeb,
     guardarGastosWeb,
-    cargarGastosWeb
+    cargarGastosWeb,
+    cargarGastosApi
 }
