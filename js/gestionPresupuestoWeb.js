@@ -85,7 +85,23 @@ function mostrarGastoWeb(idElemento, gasto){
     //Se añade el boton
     divGasto.append(botonBorrar);
 
-   
+    /*Boton borrar gasto API */
+
+    let botonBorrarAPI = document.createElement("button");
+    botonBorrarAPI.setAttribute("type", "button")
+    botonBorrarAPI.classList.add("gasto-borrar-api");
+    botonBorrarAPI.textContent="Borrar (API)";
+
+    //Manejador de eventos boton borrar API
+    let borrarManejadorAPI = Object.create(BorrarHandleAPI);
+    //Asocio borrarManejador a gasto
+    borrarManejadorAPI.gasto = gasto;
+    //Se añade manejador al botón
+    botonBorrarAPI.addEventListener("click", borrarManejadorAPI)
+    //Se añade el boton
+    divGasto.append(botonBorrarAPI);
+
+
     //Boton Editar formulario
 
     let botonEditarFormulario = document.createElement("button");
@@ -371,6 +387,39 @@ function cargarGastosWeb(){
   repintar();  
 }
 
+/*Datos carga prueba */
+
+let gasto1 = new gestionPresupuesto.CrearGasto("Gasto 1", 32.43, "2024-12-17", "prueba1", "energia", "casa");
+let gasto2 = new gestionPresupuesto.CrearGasto("Gasto 2", 55.27, "2024-10-19", "prueba2", "gasolina", "coche");
+let gasto3 = new gestionPresupuesto.CrearGasto("Gasto 3", 105.27, "2024-12-18", "prueba3", "Comida", "supermercado");
+
+
+
+async function cargarGastosPruebaAPI(gasto){
+ 
+
+  let gasto1 = new gestionPresupuesto.CrearGasto("Gasto 1", 32.43, "2024-12-17", "prueba1", "energia", "supermercado" );
+  let respuesta = await fetch (
+    "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/pablodemadaria",
+    {
+      method: "POST",
+      headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(gasto)
+    });
+
+    if (respuesta.ok){
+      console.log("gasto enviado con exito");
+    }
+
+};
+
+//cargarGastosPruebaAPI(gasto1);
+//cargarGastosPruebaAPI(gasto2);
+//cargarGastosPruebaAPI(gasto3);
+
+
 
 /*Carga y guardado API */
 
@@ -391,6 +440,27 @@ async function cargarGastosApi(){
   (respuesta.ok)?(gestionPresupuesto.cargarGastos(datos), repintar()):(console.log("error de red"));
 }
 
+/* Borrado en formulario */
+
+
+
+let BorrarHandleAPI = {
+  handleEvent: async function BorrarHandleAPI(evento){
+    evento.preventDefault();
+    console.log(this.gasto.gastoId);
+    let nombreUsuario = document.getElementById("nombre_usuario").value;
+
+    
+    let respuesta = await fetch (
+      "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/"+ nombreUsuario + "/" + this.gasto.gastoId,
+      {
+        method: "DELETE"
+      });
+  
+      (respuesta.ok)?(console.log("Gasto borrado con exito"), cargarGastosApi()):(console.log("error de red"));
+       
+  }
+}
 
 
 export{
