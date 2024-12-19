@@ -233,20 +233,56 @@ function nuevoGastoWebFormulario(evento){
 
   formulario.addEventListener("submit", submitFormulario);
   
+ function crearGastoFormulario(){
+  let descripcion = formulario.descripcion.value;
+  let valor = Number(formulario.valor.value);
+  let fecha = Date.parse(formulario.fecha.value);
+  let etiquetas = (formulario.etiquetas.value).split(",");
+  
+  let nuevoGasto = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...etiquetas);
+
+  return nuevoGasto
+ }
+ 
+ 
   function submitFormulario(evento){
     evento.preventDefault();
-    
-    let descripcion = formulario.descripcion.value;
-    let valor = Number(formulario.valor.value);
-    let fecha = Date.parse(formulario.fecha.value);
-    let etiquetas = (formulario.etiquetas.value).split(",");
-    
-    let nuevoGasto = new gestionPresupuesto.CrearGasto(descripcion, valor, fecha, ...etiquetas);
-    gestionPresupuesto.anyadirGasto(nuevoGasto);
+    gestionPresupuesto.anyadirGasto(crearGastoFormulario());
     repintar();
     formulario.remove()
     botonAnyadirGastoFormulario.disabled = false;
   }
+
+  
+  async function nuevoGastoAPI(){
+      evento.preventDefault();
+
+      let nombreUsuario = document.getElementById("nombre_usuario").value;
+      
+      if(nombreUsuario){
+
+        let respuesta = await fetch (
+          "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario + "/",
+          {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json;charset=utf-8'
+              },
+              body: JSON.stringify(crearGastoFormulario())
+          });
+      
+          (respuesta.ok)?(alert("Gasto añadido con exito"), cargarGastosApi()):(alert("Error de red"));
+      }else{
+
+        alert("Introduce nombre de usuario");
+      }
+    
+  }
+
+  let botonEnviarAPI = document.querySelector(".gasto-enviar-api");
+  botonEnviarAPI.addEventListener("click", nuevoGastoAPI)
+
+
 
   let botonCancelar = document.querySelector(".cancelar");
   
