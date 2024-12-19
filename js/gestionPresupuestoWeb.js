@@ -253,29 +253,31 @@ function nuevoGastoWebFormulario(evento){
     botonAnyadirGastoFormulario.disabled = false;
   }
 
-  
   async function nuevoGastoAPI(){
-      evento.preventDefault();
+    evento.preventDefault();
 
-      let nombreUsuario = document.getElementById("nombre_usuario").value;
-      
-      if(nombreUsuario){
+    let nombreUsuario = document.getElementById("nombre_usuario").value;
+    
+    if(nombreUsuario){
 
-        let respuesta = await fetch (
-          "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario + "/",
-          {
-            method: "POST",
-            headers: {
-              'Content-Type': 'application/json;charset=utf-8'
-              },
-              body: JSON.stringify(crearGastoFormulario())
-          });
-      
-          (respuesta.ok)?(alert("Gasto añadido con exito"), cargarGastosApi()):(alert("Error de red"));
-      }else{
+      let respuesta = await fetch (
+        "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario + "/",
+        {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(crearGastoFormulario())
+        });
+    
+        (respuesta.ok)?(alert("Gasto añadido con exito"), cargarGastosApi()):(alert("Error de red"));
+    }else{
 
-        alert("Introduce nombre de usuario");
-      }
+      alert("Introduce nombre de usuario");
+    }
+
+    formulario.remove()
+    botonAnyadirGastoFormulario.disabled = false;
     
   }
 
@@ -522,8 +524,6 @@ async function cargarGastosApi(){
 }
 
 /* Borrado en formulario */
-
-
 
 let BorrarHandleAPI = {
   handleEvent: async function BorrarHandleAPI(evento){
