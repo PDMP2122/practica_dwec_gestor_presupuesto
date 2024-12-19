@@ -288,18 +288,22 @@ let EditarHandleFormulario ={
     formularioEdit.fecha.value = new Date (this.gasto.fecha).toISOString().split('T')[0];
     formularioEdit.etiquetas.value = this.gasto.etiquetas.join(',')
   
+    function actualizarValoresConFormulario(gasto){
+      let descripcion = formularioEdit.descripcion.value;
+      let valor = Number(formularioEdit.valor.value);
+      let fecha = Date.parse(formularioEdit.fecha.value);
+      let etiquetas = (formularioEdit.etiquetas.value).split(",");
+      gasto.actualizarDescripcion(descripcion);
+      gasto.actualizarValor(valor);
+      gasto.actualizarFecha(fecha);
+      gasto.anyadirEtiquetas(...etiquetas);
+    }
     
     let submitFormularioEdit ={
       handleEvent: function submitFormEdit(evento){
         evento.preventDefault();
-        let descripcion = formularioEdit.descripcion.value;
-        let valor = Number(formularioEdit.valor.value);
-        let fecha = Date.parse(formularioEdit.fecha.value);
-        let etiquetas = (formularioEdit.etiquetas.value).split(",");
-        this.gasto.actualizarDescripcion(descripcion);
-        this.gasto.actualizarValor(valor);
-        this.gasto.actualizarFecha(fecha);
-        this.gasto.anyadirEtiquetas(...etiquetas);
+
+        actualizarValoresConFormulario(this.gasto);
         formularioEdit.remove(); 
         this.botonEditarFormulario.disabled = false;
         repintar();
@@ -312,8 +316,47 @@ let EditarHandleFormulario ={
     
     formularioEdit.addEventListener("submit", manejadorForm);
 
+    /*Enviar API */
+
+    let enviarAPIHandle ={
+      handleEvent: async function enviarAPIHandle(evento){
+        evento.preventDefault();
+        console.log(this.gasto.valor);
+
+        actualizarValoresConFormulario(this.gasto);
+
+        let nombreUsuario = document.getElementById("nombre_usuario").value;
+        
+        if(nombreUsuario){
+
+          let respuesta = await fetch (
+            "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario + "/" + this.gasto.gastoId,
+            {
+              method: "PUT",
+              headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(this.gasto)
+            });
+        
+            (respuesta.ok)?(alert("Gasto modificado con exito"), cargarGastosApi()):(alert("Error de red"));
+        }else{
+
+          alert("Introduce nombre de usuario");
+        }
+      }
+    }
+
+    let botonEnviarAPI = document.querySelector(".gasto-enviar-api");
+    let enviarAPIManejador = Object.create(enviarAPIHandle);
+    enviarAPIManejador.gasto = this.gasto;
+    botonEnviarAPI.addEventListener("click", enviarAPIManejador)
+
+    /*Botón cancelar*/
+
     let botonCancelar = document.querySelector(".cancelar");
     let cancelarManejador = Object.create(cancelarBoton);
+    
     //Envio del elemento formulario para su destrucción
     cancelarManejador.formulario = formularioEdit;
     cancelarManejador.botonEditar = manejadorForm.botonEditarFormulario;
@@ -387,18 +430,15 @@ function cargarGastosWeb(){
   repintar();  
 }
 
+
 /*Datos carga prueba */
 
 let gasto1 = new gestionPresupuesto.CrearGasto("Gasto 1", 32.43, "2024-12-17", "prueba1", "energia", "casa");
 let gasto2 = new gestionPresupuesto.CrearGasto("Gasto 2", 55.27, "2024-10-19", "prueba2", "gasolina", "coche");
 let gasto3 = new gestionPresupuesto.CrearGasto("Gasto 3", 105.27, "2024-12-18", "prueba3", "Comida", "supermercado");
 
-
-
 async function cargarGastosPruebaAPI(gasto){
- 
-
-  let gasto1 = new gestionPresupuesto.CrearGasto("Gasto 1", 32.43, "2024-12-17", "prueba1", "energia", "supermercado" );
+   
   let respuesta = await fetch (
     "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/pablodemadaria",
     {
@@ -410,6 +450,7 @@ async function cargarGastosPruebaAPI(gasto){
     });
 
     if (respuesta.ok){
+
       console.log("gasto enviado con exito");
     }
 
@@ -428,16 +469,20 @@ botonCargarGastosAPI.addEventListener("click", cargarGastosApi)
 
 async function cargarGastosApi(){
   let nombreUsuario = document.getElementById("nombre_usuario").value;
-  console.log(nombreUsuario);
-  let url="https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario;
-  console.log(url);
-
-  let respuesta = await fetch(url);
-  let datos = await respuesta.json()
   
-  console.log(datos);
+  if(nombreUsuario){
 
-  (respuesta.ok)?(gestionPresupuesto.cargarGastos(datos), repintar()):(console.log("error de red"));
+    let url="https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario;
+
+    let respuesta = await fetch(url);
+    let datos = await respuesta.json();
+    
+    (respuesta.ok)?(gestionPresupuesto.cargarGastos(datos), repintar()):(alert("Error de red"));
+
+  }else{
+
+    alert("Introduce nombre de usuario");
+  }
 }
 
 /* Borrado en formulario */
@@ -447,18 +492,22 @@ async function cargarGastosApi(){
 let BorrarHandleAPI = {
   handleEvent: async function BorrarHandleAPI(evento){
     evento.preventDefault();
-    console.log(this.gasto.gastoId);
     let nombreUsuario = document.getElementById("nombre_usuario").value;
-
     
-    let respuesta = await fetch (
-      "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/"+ nombreUsuario + "/" + this.gasto.gastoId,
-      {
-        method: "DELETE"
-      });
-  
-      (respuesta.ok)?(console.log("Gasto borrado con exito"), cargarGastosApi()):(console.log("error de red"));
-       
+    if(nombreUsuario){
+
+      let respuesta = await fetch (
+        "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario + "/" + this.gasto.gastoId,
+        {
+          method: "DELETE"
+        });
+    
+        (respuesta.ok)?(console.log("Gasto borrado con exito"), cargarGastosApi()):(alert("Error de red"));
+
+    }else{
+
+      alert("Introduce nombre de usuario");
+    }
   }
 }
 
