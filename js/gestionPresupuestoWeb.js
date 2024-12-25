@@ -207,9 +207,31 @@ let BorrarHandle = {
 }
 
 let BorrarEtiquetasHandle = {
-  handleEvent: function(evento){
+  handleEvent: async function(evento){
     this.gasto.borrarEtiquetas(this.etiqueta)
     repintar();
+
+    /*Borrado Etiquetas API */
+    
+     let nombreUsuario = document.getElementById("nombre_usuario").value;
+        
+      if(nombreUsuario){
+
+        let respuesta = await fetch (
+          "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario + "/" + this.gasto.gastoId,
+          {
+            method: "PUT",
+            headers: {
+              'Content-Type': 'application/json;charset=utf-8'
+              },
+              body: JSON.stringify(this.gasto)
+          });
+      
+          (respuesta.ok)?(alert("Gasto modificado con exito"), cargarGastosApi()):(alert("Error de red"));
+      }else{
+
+        alert("Introduce nombre de usuario");
+      }
   }
 }
 
@@ -514,6 +536,7 @@ async function cargarGastosApi(){
 
     let respuesta = await fetch(url);
     let datos = await respuesta.json();
+    console.log(datos);
     
     (respuesta.ok)?(gestionPresupuesto.cargarGastos(datos), repintar()):(alert("Error de red"));
 
