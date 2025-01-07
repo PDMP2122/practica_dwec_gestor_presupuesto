@@ -555,13 +555,18 @@ let BorrarHandleAPI = {
     
     if(nombreUsuario){
 
-      let respuesta = await fetch (
-        "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario + "/" + this.gasto.gastoId,
-        {
-          method: "DELETE"
-        });
-    
-        (respuesta.ok)?(console.log("Gasto borrado con exito"), cargarGastosApi()):(alert("Error de red"));
+      let confirmacionBorrado = confirm("¿Seguro que quieres borrar el gasto?");
+
+      if(confirmacionBorrado){
+
+        let respuesta = await fetch (
+          "https://suhhtqjccd.execute-api.eu-west-1.amazonaws.com/latest/" + nombreUsuario + "/" + this.gasto.gastoId,
+          {
+            method: "DELETE"
+          });
+      
+          (respuesta.ok)?(alert("Gasto borrado con exito"), cargarGastosApi()):(alert("Error de red"));
+      }
 
     }else{
 
