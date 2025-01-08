@@ -217,6 +217,10 @@ function repintar(){
     mostrarGastoWeb("div#listado-gastos-completo", gasto)
   }
  
+  mostrarGastosAgrupadosWeb("div#agrupacion-dia", gestionPresupuesto.agruparGastos("dia"),"día");
+  mostrarGastosAgrupadosWeb("div#agrupacion-mes", gestionPresupuesto.agruparGastos("mes"),"mes");
+  mostrarGastosAgrupadosWeb("div#agrupacion-anyo", gestionPresupuesto.agruparGastos("año"),"año");
+
 }
 
 function actualizarPresupuestoWeb (){
