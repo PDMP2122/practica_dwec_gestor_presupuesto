@@ -123,17 +123,17 @@ function mostrarGastoWeb(idElemento, gasto){
     elemento.append(divGasto);
 }
 
-function mostrarGastosAgrupadosWeb(idElemento, agroup, periodo){
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
   let divP = document.querySelector(idElemento);
   divP.innerHTML = "";
   let divAgrupacion = document.createElement("div");
   divAgrupacion.classList.add("agrupacion");
 
-  let h1 = document.createElement("h1");
+  /*let h1 = document.createElement("h1");
   h1.innerText = `Gastos agrupados por ${periodo}`;
-  divAgrupacion.append(h1);
+  divAgrupacion.append(h1);*/
 
-  Object.entries(agroup).forEach(([key, value]) => {
+  Object.entries(agrup).forEach(([key, value]) => {
     let divAgrupacionDato = document.createElement("div");
       divAgrupacionDato.classList.add("agrupacion-dato");
       divAgrupacionDato.innerHTML=`<span class="agrupacion-dato-clave">${key}</span>
